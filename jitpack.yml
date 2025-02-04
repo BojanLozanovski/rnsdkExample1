@@ -6,13 +6,22 @@ install:
   - |
     cd libs
     for lib in *; do
-      libName=${lib//.aar/}
-      
-      mvn install:install-file \
-        -Dfile=$lib \
-        -DgroupId=com.company.rnsdk \
-        -DartifactId=$libName \
-        -Dversion=$VERSION \
-        -Dpackaging=aar \
-        -DgeneratePom=true
+      # Extract file extension
+      extension="${lib##*.}" # "aar" or "jar"
+
+      # Remove extension from filename
+      libName="${lib%.*}"
+
+      # Determine packaging type based on file extension
+      if [[ "$extension" == "aar" || "$extension" == "jar" ]]; then
+        mvn install:install-file \
+          -Dfile="$lib" \
+          -DgroupId=com.company.rnsdk \
+          -DartifactId="$libName" \
+          -Dversion="$VERSION" \
+          -Dpackaging="$extension" \  # Dynamically set as "aar" or "jar"
+          -DgeneratePom=true
+      else
+        echo "Skipping unsupported file: $lib"
+      fi
     done
