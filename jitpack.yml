@@ -1,6 +1,8 @@
 jdk:
   - openjdk11
+  
 install:
+  - git lfs pull  
   - |
     cd libs
     for lib in *; do
