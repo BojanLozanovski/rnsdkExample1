@@ -15,11 +15,11 @@ install:
       # Determine packaging type based on file extension
       if [[ "$extension" == "aar" || "$extension" == "jar" ]]; then
         mvn install:install-file \
-          -Dfile="$lib" \
+          -Dfile=$lib \
           -DgroupId=com.company.rnsdk \
-          -DartifactId="$libName" \
-          -Dversion="$VERSION" \
-          -Dpackaging="$extension" \  # Dynamically set as "aar" or "jar"
+          -DartifactId=$libName \
+          -Dversion=$VERSION \
+          -Dpackaging=$extension \
           -DgeneratePom=true
       else
         echo "Skipping unsupported file: $lib"
